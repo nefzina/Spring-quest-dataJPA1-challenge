@@ -5,21 +5,18 @@ import com.wildcodeschool.wildandwizard.repository.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 public class SchoolController {
 
     // get school repository by dependency injection
     @Autowired
     private SchoolRepository repository;
 
-    @GetMapping("/schools")
+    @GetMapping("/school/list")
     public String getAll(Model model) {
         model.addAttribute("schools", repository.findAll());
         return "schools";
@@ -42,7 +39,7 @@ public class SchoolController {
     }
 
     @PostMapping("/school")
-    public String postSchool(@ModelAttribute School school) {
+    public String postSchool(@RequestBody School school) {
         // create or update a school
         repository.save(school);
         return "redirect:/schools";
